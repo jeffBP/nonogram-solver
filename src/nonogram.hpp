@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 
 enum cellVal {UNKNOWN=-1, UNFILLED=0, FILLED=1};
