@@ -24,3 +24,40 @@ void Nonogram::randomizeCells() {
         cells_[i] = ( rand() % 2 == 0 ) ? cellVal::UNFILLED : cellVal::FILLED;
     }
 }
+// Will in case of even size, will return size/2
+// For odd size, will return size/2 + 1
+std::vector<cellVal> Nonogram::getFrontHalf() {
+    if (cells_.size()%2==0) {
+        return std::vector<cellVal>(cells_.begin(), cells_.begin()+(cells_.size()/2));
+    } else {
+        return std::vector<cellVal>(cells_.begin(), cells_.begin()+(cells_.size()/2)+1);
+    }
+}
+
+void Nonogram::replaceFrontHalf(std::vector<cellVal> new_half) {
+    if (cells_.size()%2==0) {
+        cells_.erase(cells_.begin(), cells_.begin()+(cells_.size()/2));
+        cells_.insert(cells_.begin(), new_half.begin(), new_half.end());
+    } else {
+        cells_.erase(cells_.begin(), cells_.begin()+(cells_.size()/2)+1);
+        cells_.insert(cells_.begin(), new_half.begin(), new_half.end());
+    }
+}
+
+std::vector<cellVal> Nonogram::getBackHalf() {
+    if (cells_.size()%2==0) {
+        return std::vector<cellVal>(cells_.begin()+(cells_.size()/2), cells_.end());
+    } else {
+        return std::vector<cellVal>(cells_.begin()+(cells_.size()/2)+1, cells_.end());
+    }
+}
+
+void Nonogram::replaceBackHalf(std::vector<cellVal> new_half) {
+    if (cells_.size()%2==0) {
+        cells_.erase(cells_.begin()+(cells_.size()/2), cells_.end());
+        cells_.insert(cells_.end(), new_half.begin(), new_half.end());
+    } else {
+        cells_.erase(cells_.begin()+(cells_.size()/2)+1, cells_.end());
+        cells_.insert(cells_.end(), new_half.begin(), new_half.end());
+    }
+}

@@ -13,6 +13,10 @@ class Nonogram {
     void randomizeCells();
     void flipCell(int row, int col);
     void setCell(int row, int col, cellVal new_val);
+    std::vector<cellVal> getFrontHalf();
+    void replaceFrontHalf(std::vector<cellVal> new_half);
+    std::vector<cellVal> getBackHalf();
+    void replaceBackHalf(std::vector<cellVal> back_half); 
 
   private:
     const int h_; // height
