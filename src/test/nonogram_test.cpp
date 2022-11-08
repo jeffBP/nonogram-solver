@@ -56,5 +56,7 @@ TEST(NonogramTest, NonogramCrossTest) {
   cross_nonograms(&n1, &n2);
   EXPECT_EQ(n1_front, n2.getFrontHalf());
   EXPECT_EQ(n2_front, n1.getFrontHalf());
+
+  // Should fail. Different size nonograms.
   ASSERT_DEATH(cross_nonograms(&n1, &n3), "");
 }
