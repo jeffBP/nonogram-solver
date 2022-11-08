@@ -16,7 +16,11 @@ void Nonogram::setCell(int row, int col, cellVal new_val) {
 }
 
 void Nonogram::flipCell(int row, int col) {
-    cells_[row*w_+col] = (cellVal)((cells_[row*w_+col]+1)%2);
+    flipCell(row*w_+col);
+}
+
+void Nonogram::flipCell(int idx) {
+    cells_[idx] = (cellVal)((cells_[idx]+1)%2);
 }
 
 void Nonogram::randomizeCells() {
@@ -60,4 +64,9 @@ void Nonogram::replaceBackHalf(std::vector<cellVal> new_half) {
         cells_.erase(cells_.begin()+(cells_.size()/2)+1, cells_.end());
         cells_.insert(cells_.end(), new_half.begin(), new_half.end());
     }
+}
+
+void Nonogram::mutateRandomCell() {
+    int cell_idx = rand()%cells_.size();
+    flipCell(cell_idx);
 }
