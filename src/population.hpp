@@ -1,5 +1,11 @@
 #include <memory>
 
-#include "src/nonogram.hpp"
+#include "nonogram.hpp"
 
-using PopulationPtr = std::shared_ptr<>
+template<class T>
+class Population {
+  Population<T>(int n);
+
+private:
+  std::vector<T> pop;
+};

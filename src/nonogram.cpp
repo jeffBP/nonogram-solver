@@ -1,14 +1,16 @@
 #include "nonogram.hpp"
 
 Nonogram::Nonogram() : h_{5}, w_{5}, cells_(std::vector<cellVal>(h_*w_, cellVal::UNKNOWN)) {
+    init();
 }
 
 Nonogram::Nonogram(int h, int w): h_{h}, w_{w}, cells_(std::vector<cellVal>(h_*w_, cellVal::UNKNOWN))
 {
+    init();
 }
 
 cellVal Nonogram::getCell(int row, int col) {
-    return cells_[row*w_ + col];
+    return getCell(row*w_ + col);
 }
 
 void Nonogram::setCell(int row, int col, cellVal new_val) {
@@ -23,7 +25,7 @@ void Nonogram::flipCell(int idx) {
     cells_[idx] = (cellVal)((cells_[idx]+1)%2);
 }
 
-void Nonogram::randomizeCells() {
+void Nonogram::init() {
     for (int i = 0; i < cells_.size(); ++i) {
         cells_[i] = ( rand() % 2 == 0 ) ? cellVal::UNFILLED : cellVal::FILLED;
     }
@@ -66,7 +68,42 @@ void Nonogram::replaceBackHalf(std::vector<cellVal> new_half) {
     }
 }
 
-void Nonogram::mutateRandomCell() {
+int Nonogram::flipRandomCell() {
     int cell_idx = rand()%cells_.size();
     flipCell(cell_idx);
+    return cell_idx;
+}
+
+std::pair<int, int> Nonogram::transposeRandomCells() {
+    int cell_idx1 = rand()%cells_.size();
+    int cell_idx2 = cell_idx1;
+    while (cell_idx2 == cell_idx1) {
+        cell_idx2 = rand()%cells_.size();
+    }
+    cellVal cv1 = getCell(cell_idx1);
+    cells_[cell_idx1] = getCell(cell_idx2);
+    cells_[cell_idx2] = cv1;
+    return {cell_idx1, cell_idx2};
+}
+
+int Nonogram::insertRandomCellValAtRandomIdx() {
+    cellVal cv = (cellVal)(rand()%2);
+    int idx = rand()%cells_.size();
+    cells_.pop_back();
+    cells_.insert(cells_.begin()+idx, cv);
+    return idx;
+}
+
+void Nonogram::mutate() {
+    switch ( rand()%3 ) {
+        case 0:
+            flipRandomCell();
+            break;
+        case 1: 
+            transposeRandomCells();
+            break;
+        case 2: 
+            insertRandomCellValAtRandomIdx();
+            break; 
+    }
 }
